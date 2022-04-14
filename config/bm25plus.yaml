@@ -1,0 +1,5 @@
+topics_file: "topics/SP12022topics.json"
+topic_content_dir: "topics/topic_related_content/"
+dataset_file: "dataset.json"
+model_type: "bm25plus"
+output_file: "bm25plus_result.txt"

@@ -1,5 +1,5 @@
 import requests
-from rank_bm25 import BM25Okapi
+from rank_bm25 import BM25Okapi, BM25Plus, BM25L
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
 from models.utils import load_config, load_dataset
@@ -26,9 +26,16 @@ with open('target.txt', 'w', encoding='utf8') as f_out:
 print('Collecting passage')
 results = []
 for i, data in enumerate(tqdm(dataset)):
-    if opt.model_type == 'bm25':
+    if opt.model_type.startswith('bm25'):
         tokenized_corpus = [word_tokenize(doc.lower()) for doc in data['docs']]
-        bm25 = BM25Okapi(tokenized_corpus)
+        if opt.model_type == 'bm25okapi':
+            bm25 = BM25Okapi(tokenized_corpus)
+        elif opt.model_type == 'bm25plus':
+            bm25 = BM25Plus(tokenized_corpus)
+        elif opt.model_type == 'bm25l':
+            bm25 = BM25L(tokenized_corpus)
+        else:
+            raise NotImplementedError
         title_as_query_scores = bm25.get_scores(word_tokenize(data['topic_text'].lower()))
         article_as_query_scores = bm25.get_scores(word_tokenize(data['topic_content']))
         results.append(data['docs'][title_as_query_scores.argmax()])
