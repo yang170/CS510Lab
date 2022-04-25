@@ -1,6 +1,6 @@
 topics_file: "topics/SP12022topics.json"
 topic_content_dir: "topics/topic_related_content/"
 dataset_file: "dataset.json"
-model_type: "tfidf"
+model_type: "bert"
 query: "title"
-output_file: "tfidf_result.txt"
+output_file: "bert_result.txt"

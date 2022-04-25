@@ -26,6 +26,7 @@ def load_config():
     parser.add_argument('--topics_file', type=str, default=None, help="The json file storing topics")
     parser.add_argument('--topic_content_dir', type=str, default=None, help="The folder where the topic related contents are saved")
     parser.add_argument('--model_type', type=str, default=None, help="The model type to be used: bm25/tfidf/bert")
+    parser.add_argument('--query', type=str, default=None, help="The content to be used as query: title/article")
 
     config = parser.parse_args().config
     with open(config) as f_in:
@@ -47,7 +48,7 @@ def create_dataset(topics_file:str, topic_content_dir:str):
             for line in f_in:
                 line = line.strip().lower()
                 if line:
-                    topic_content.extend(remove_brackets(line.strip()))
+                    topic_content.append(remove_brackets(line.strip()))
         data['topic_content'] = ' '.join(topic_content)
 
         data['topic_text'] = topic['topic_text']
